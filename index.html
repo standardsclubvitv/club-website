@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIS Standards Club VITv - Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #00539c;
+            --secondary-blue: #0074d9;
+            --accent-cyan: #00d4ff;
+            --dark-bg: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            --gradient-accent: linear-gradient(135deg, var(--secondary-blue), var(--accent-cyan));
+            --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.5);
+            --glow-blue: 0 0 40px rgba(0, 116, 217, 0.3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 20%, rgba(0, 83, 156, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 60%, rgba(0, 116, 217, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { 
+                background: radial-gradient(circle at 20% 20%, rgba(0, 83, 156, 0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                           radial-gradient(circle at 40% 60%, rgba(0, 116, 217, 0.1) 0%, transparent 50%);
+            }
+            50% { 
+                background: radial-gradient(circle at 80% 30%, rgba(0, 83, 156, 0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 20% 70%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                           radial-gradient(circle at 60% 40%, rgba(0, 116, 217, 0.1) 0%, transparent 50%);
+            }
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .splash-container {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Logo Animation */
+        .logo-container {
+            margin-bottom: 3rem;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 260px;
+            height: 140px;
+            border-radius: 50%;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes logoGlow {
+            0% { 
+                filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.3));
+            }
+            100% { 
+                filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.5));
+            }
+        }
+
+        /* Welcome Text */
+        .welcome-text {
+            margin-bottom: 4rem;
+        }
+
+        .welcome-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+           background: linear-gradient(45deg, #a0a528, #d9c400, #ca8416);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite, textGlow 2s ease-in-out infinite alternate;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes textGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3)); }
+            100% { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6)); }
+        }
+
+        .welcome-subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            letter-spacing: 2px;
+        }
+
+        .club-name {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enter Button */
+        .enter-button {
+            position: relative;
+            padding: 1.5rem 4rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+        }
+
+        .enter-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .enter-button:hover::before {
+            left: 0;
+        }
+
+        .enter-button:hover {
+            color: var(--dark-bg);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-3px);
+        }
+
+        .enter-button i {
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .enter-button:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 212, 255, 0.2);
+            border-top: 4px solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .logo-container {
+                margin-bottom: 2rem;
+            }
+
+            .welcome-text {
+                margin-bottom: 3rem;
+            }
+
+            .enter-button {
+                padding: 1.2rem 3rem;
+                font-size: 1rem;
+            }
+
+            .splash-container {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 190px;
+                height: 105px;
+            }
+
+            .enter-button {
+                padding: 1rem 2.5rem;
+                font-size: 0.9rem;
+            }
+
+            .welcome-subtitle {
+                letter-spacing: 1px;
+            }
+
+            .club-name {
+                letter-spacing: 2px;
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .enter-button {
+                border-color: #ffffff;
+                color: #ffffff;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="background"></div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element">
+        <i class="fas fa-code" style="font-size: 3rem; color: var(--accent-cyan);"></i>
+    </div>
+    <div class="floating-element">
+        <i class="fas fa-users" style="font-size: 2.5rem; color: var(--secondary-blue);"></i>
+    </div>
+    <div class="floating-element">
+        <i class="fas fa-lightbulb" style="font-size: 3.5rem; color: var(--primary-blue);"></i>
+    </div>
+
+    <!-- Main Content -->
+    <div class="splash-container">
+        <div class="logo-container">
+            <img src="https://standardsclubvitv.github.io/Standards-Club-VITv/image/logo_club.png" 
+                 alt="BIS Standards Club Logo" 
+                 class="logo"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <div class="welcome-text">
+            <h1 class="welcome-title">Welcome to</h1>
+            <p class="welcome-subtitle">BIS Standards Club</p>
+            <p class="club-name">VIT Vellore</p>
+        </div>
+
+        <a href="#" class="enter-button" id="enterButton">
+            Enter Website
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- Particles.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // Initialize particles
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 100,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: ['#00d4ff', '#0074d9', '#00539c']
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.5,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00d4ff',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'window',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 150,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Hide loading overlay after page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Enter button functionality
+        document.getElementById('enterButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Add exit animation
+            document.body.style.animation = 'fadeOut 1s ease-out forwards';
+            
+            // Redirect after animation
+            setTimeout(() => {
+                // Replace this with your main website URL
+                window.location.href = 'page.html';
+            }, 1000);
+        });
+
+        // Add exit animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(1.1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                document.getElementById('enterButton').click();
+            }
+        });
+
+        // Add some interactive effects
+        document.addEventListener('mousemove', (e) => {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            floatingElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed * 20;
+                const y = (mouseY - 0.5) * speed * 20;
+                element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Performance optimization
+        let ticking = false;
+        function optimizedMouseMove(e) {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    // Mouse move logic here
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        // Add some sound effects (optional)
+        function playHoverSound() {
+            // You can add audio effects here if needed
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvGMcBz+a2/LNeSsFLIHO8tiJOQcZZ7zs5Z9NEAxPqOLst2EcBjuO2fLWeSsFIXPF8N2QQQoUX7Tp66lUEwlEnuLyvGEcBz+a2/LNeSsFLYDO8tiIOQcZZ7zs5J9NEAxPpuLst2EcBjuO2fLWeSsFInDE8N2QQQoUXrTp66pUEglEnt/yvGEcBjyZ2/LQeSsFLH7N8tiIOQcZZrvs5J9NEAxOpeLst2EcBjiL2fLXeSsFI3DD8N2QQQsUXbPp66pTEglEnt/yv');
+        }
+
+        document.getElementById('enterButton').addEventListener('mouseenter', () => {
+            document.getElementById('enterButton').style.transform = 'translateY(-5px) scale(1.05)';
+        });
+
+        document.getElementById('enterButton').addEventListener('mouseleave', () => {
+            document.getElementById('enterButton').style.transform = 'translateY(0) scale(1)';
+        });
+    </script>
+</body>
+</html>
