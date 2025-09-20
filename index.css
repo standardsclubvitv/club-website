@@ -8,6 +8,25 @@
     box-sizing: border-box;
 }
 
+/* Performance optimizations */
+*,
+*::before,
+*::after {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+/* Enable hardware acceleration for smooth animations */
+.team-member,
+.event-card,
+.slide,
+.member-img,
+nav a {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
 :root {
     /* Color Palette */
     --primary-blue: #00539c;
@@ -35,11 +54,17 @@
     --transition-fast: 0.2s ease;
     --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Performance optimizations */
+    --gpu-acceleration: translate3d(0, 0, 0);
 }
 
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    /* Optimize scrolling performance */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -49,6 +74,10 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
+    /* Enable smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Optimize repainting */
+    transform: translate3d(0, 0, 0);
 }
 
 /* ===== UTILITY CLASSES ===== */
@@ -56,6 +85,25 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--container-padding);
+}
+
+/* Image optimization for better performance */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
 }
 
 .section-title {
@@ -172,11 +220,13 @@ nav a::before {
     transform: translateX(-50%);
 }
 
-nav a:hover::before {
+nav a:hover::before,
+nav a.active::before {
     width: 100%;
 }
 
-nav a:hover {
+nav a:hover,
+nav a.active {
     color: var(--accent-cyan);
     transform: translateY(-2px);
 }
@@ -228,6 +278,10 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Performance optimizations */
+    will-change: opacity;
+    transform: var(--gpu-acceleration);
+    backface-visibility: hidden;
 }
 
 .slide.active {
