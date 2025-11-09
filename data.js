@@ -37,7 +37,7 @@ const CLUB_DATA = {
         {
             title: "Empowering Students",
             subtitle: "Developing future leaders in standardization",
-            backgroundImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            backgroundImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
         },
         {
             title: "Join Our Community",
@@ -132,9 +132,9 @@ const CLUB_DATA = {
             linkedin: "#"
         },
         {
-            name: "Ananthu Suresh",
+            name: "Naveen Chand N",
             position: "Design Head",
-            image: "./profile/Ananthu Suresh.JPG",
+            image: "./profile/Ananthu Suresh.JG",
             bio: "Overseeing all visual design aspects of club activities.",
             linkedin: "#"
         },
@@ -181,11 +181,11 @@ const CLUB_DATA = {
             linkedin: "https://www.linkedin.com/in/shikha-d-152217356"
         },
         {
-            name: "Devadutt",
-            position: "Finance Head",
-            image: "./profile/Devadutt.jpg",
-            bio: "Managing club finances and budgeting for activities.",
-            linkedin: "#"
+            name: "Arjun S",
+            position: "Development head",
+            image: "./profile/development head.jpg",
+            bio: "responsible for leading and overseeing the planning, execution.",
+            linkedin: "https://www.linkedin.com/in/arjun-s-b45593239?utm_source=share_via&utm_content=profile&utm_medium=member_android"
         },
         {
             name: "Archa",

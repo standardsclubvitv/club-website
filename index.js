@@ -23,9 +23,12 @@ class BISClubWebsite {
     init() {
         // Load data and initialize renderer
         this.loadDataAndRender().then(() => {
-            // Optimize initialization order for better performance
-            this.initMobileMenu();
-            this.initSmoothScrolling();
+            // Wait for DOM to be fully ready before initializing mobile menu
+            setTimeout(() => {
+                this.initMobileMenu();
+                this.initSmoothScrolling();
+                console.log('✅ Mobile menu initialized');
+            }, 100);
             
             // Use requestIdleCallback for non-critical initializations
             if (window.requestIdleCallback) {
@@ -101,12 +104,13 @@ class BISClubWebsite {
         console.log('🧹 BIS Club Website cleaned up');
     }
 
-    // Particle Background System (Optimized)
+    // Particle Background System (Heavily Optimized)
     initParticles() {
         if (typeof particlesJS !== 'undefined') {
-            // Reduce particle count on mobile devices for better performance
+            // Adaptive particle count based on device capabilities
             const isMobile = window.innerWidth <= 768;
-            const particleCount = isMobile ? 30 : 80;
+            const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+            const particleCount = isMobile ? (isLowEnd ? 20 : 35) : (isLowEnd ? 50 : 80);
             
             particlesJS('particles-js', {
                 particles: {
@@ -173,11 +177,11 @@ class BISClubWebsite {
                     detect_on: 'window',
                     events: {
                         onhover: {
-                            enable: !isMobile, // Disable hover effects on mobile
+                            enable: !isMobile && !isLowEnd, // Disable on mobile and low-end devices
                             mode: 'repulse'
                         },
                         onclick: {
-                            enable: true,
+                            enable: !isMobile, // Disable click on mobile for better performance
                             mode: 'push'
                         },
                         resize: true
@@ -340,45 +344,66 @@ class BISClubWebsite {
         const menuBtn = document.querySelector('.mobile-menu-btn');
         const nav = document.querySelector('nav ul');
         
-        if (!menuBtn || !nav) return;
+        if (!menuBtn) {
+            console.error('❌ Mobile menu button not found!');
+            return;
+        }
+        
+        if (!nav) {
+            console.error('❌ Navigation menu not found!');
+            return;
+        }
 
-        menuBtn.addEventListener('click', () => {
+        console.log('✅ Mobile menu elements found:', { menuBtn, nav });
+
+        // Add click handler to menu button with event delegation
+        menuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🎯 Menu button clicked!');
             this.toggleMobileMenu();
-        });
+        }, { passive: false });
 
         // Close menu when clicking on links
         nav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                console.log('🔗 Nav link clicked, closing menu');
                 this.closeMobileMenu();
             });
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
+            if (this.isMenuOpen && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
+                console.log('👆 Clicked outside menu, closing');
                 this.closeMobileMenu();
             }
         });
+        
+        console.log('✅ Mobile menu listeners attached');
     }
 
     toggleMobileMenu() {
         const nav = document.querySelector('nav ul');
         const menuBtn = document.querySelector('.mobile-menu-btn i');
+        const body = document.body;
+        
+        if (!nav) {
+            console.error('❌ Nav not found in toggleMobileMenu');
+            return;
+        }
         
         this.isMenuOpen = !this.isMenuOpen;
         
+        console.log(`🔄 Toggling menu: ${this.isMenuOpen ? 'OPEN' : 'CLOSED'}`);
+        
         if (this.isMenuOpen) {
-            nav.style.display = 'flex';
-            nav.style.flexDirection = 'column';
-            nav.style.position = 'absolute';
-            nav.style.top = '100%';
-            nav.style.left = '0';
-            nav.style.right = '0';
-            nav.style.background = 'rgba(10, 10, 10, 0.95)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.padding = '2rem';
-            nav.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
-            if (menuBtn) menuBtn.className = 'fas fa-times';
+            nav.classList.add('active');
+            body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+            if (menuBtn) {
+                menuBtn.className = 'fas fa-times';
+            }
+            console.log('✅ Menu opened, active class added');
         } else {
             this.closeMobileMenu();
         }
@@ -387,57 +412,75 @@ class BISClubWebsite {
     closeMobileMenu() {
         const nav = document.querySelector('nav ul');
         const menuBtn = document.querySelector('.mobile-menu-btn i');
+        const body = document.body;
+        
+        console.log('🔒 Closing mobile menu');
         
         this.isMenuOpen = false;
         if (nav) {
-            nav.style.display = window.innerWidth > 768 ? 'flex' : 'none';
-            nav.style.flexDirection = window.innerWidth > 768 ? 'row' : 'column';
-            nav.style.position = 'static';
-            nav.style.background = 'none';
-            nav.style.padding = '0';
-            nav.style.borderTop = 'none';
+            nav.classList.remove('active');
+            console.log('✅ Menu closed, active class removed');
         }
-        if (menuBtn) menuBtn.className = 'fas fa-bars';
+        body.style.overflow = ''; // Restore scrolling
+        if (menuBtn) {
+            menuBtn.className = 'fas fa-bars';
+        }
     }
 
-    // Header Scroll Effect
+    // Header Scroll Effect (Optimized with throttle)
     initHeaderScrollEffect() {
         const header = document.querySelector('header');
         if (!header) return;
 
         let lastScrollY = window.scrollY;
         let ticking = false;
+        let scrollTimeout;
 
         const updateHeader = () => {
             const scrollY = window.scrollY;
+            const scrollDifference = Math.abs(scrollY - lastScrollY);
             
+            // Only update if scroll difference is significant (reduces repaints)
+            if (scrollDifference < 5 && scrollY !== 0) {
+                ticking = false;
+                return;
+            }
+            
+            // Add/remove scrolled class
             if (scrollY > 100) {
-                header.style.background = 'rgba(10, 10, 10, 0.98)';
-                header.style.backdropFilter = 'blur(25px)';
-                header.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                header.classList.add('scrolled');
             } else {
-                header.style.background = 'rgba(10, 10, 10, 0.95)';
-                header.style.backdropFilter = 'blur(20px)';
-                header.style.boxShadow = 'none';
+                header.classList.remove('scrolled');
             }
 
-            // Hide/show header on scroll
-            if (scrollY > lastScrollY && scrollY > 200) {
-                header.style.transform = 'translateY(-100%)';
+            // Hide/show header on scroll (only on downward scroll)
+            if (scrollY > lastScrollY && scrollY > 300) {
+                header.classList.add('hidden');
             } else {
-                header.style.transform = 'translateY(0)';
+                header.classList.remove('hidden');
             }
 
             lastScrollY = scrollY;
             ticking = false;
         };
 
-        window.addEventListener('scroll', () => {
+        // Debounced scroll handler
+        const handleScroll = () => {
             if (!ticking) {
                 requestAnimationFrame(updateHeader);
                 ticking = true;
             }
-        }, { passive: true });
+            
+            // Clear any existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Set a timeout to ensure header is visible after scrolling stops
+            scrollTimeout = setTimeout(() => {
+                header.classList.remove('hidden');
+            }, 1000);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
     }
 
     // Enhanced Smooth Scrolling
@@ -546,33 +589,50 @@ class BISClubWebsite {
         }
     }
 
-    // Enhanced Lazy Loading for Images
+    // Enhanced Lazy Loading for Images with Performance Optimization
     initLazyLoading() {
         // Handle images with native lazy loading
-        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        const lazyImages = document.querySelectorAll('img[loading="lazy"], img:not([loading])');
         
-        // Add fade-in effect when images load
+        // Use Intersection Observer for better performance
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    // Handle image load
+                    const handleImageLoad = () => {
+                        // Use requestAnimationFrame for smooth transition
+                        requestAnimationFrame(() => {
+                            img.classList.add('loaded');
+                            img.style.opacity = '1';
+                        });
+                    };
+                    
+                    if (img.complete && img.naturalHeight !== 0) {
+                        handleImageLoad();
+                    } else {
+                        img.addEventListener('load', handleImageLoad, { once: true });
+                        img.addEventListener('error', () => {
+                            console.warn('Failed to load image:', img.src);
+                            img.style.opacity = '0.3';
+                            img.alt = 'Image failed to load';
+                        }, { once: true });
+                    }
+                    
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px', // Start loading slightly before entering viewport
+            threshold: 0.01
+        });
+        
+        // Observe all lazy images
         lazyImages.forEach(img => {
-            // Set initial state
             img.style.opacity = '0';
-            img.style.transition = 'opacity 0.3s ease';
-            
-            const handleImageLoad = () => {
-                img.style.opacity = '1';
-                img.classList.add('loaded');
-            };
-            
-            if (img.complete && img.naturalHeight !== 0) {
-                // Image is already loaded
-                handleImageLoad();
-            } else {
-                // Wait for image to load
-                img.addEventListener('load', handleImageLoad);
-                img.addEventListener('error', () => {
-                    console.warn('Failed to load image:', img.src);
-                    img.style.opacity = '0.5'; // Show placeholder state
-                });
-            }
+            img.style.transition = 'opacity 0.4s ease-out';
+            imageObserver.observe(img);
         });
         
         // Fallback for browsers without native lazy loading support
@@ -631,7 +691,7 @@ class BISClubWebsite {
         const criticalImages = [
             'https://standardsclubvitv.github.io/image-api/images/logo_club.png',
             'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
-            'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
             'https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80'
         ];
         
@@ -710,7 +770,7 @@ class BISClubWebsite {
     preloadImages() {
         const imageUrls = [
             'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
-            'https://images.unsplash.com/photo-1523050854058-8df90110c9f1',
+            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4',
             'https://images.unsplash.com/photo-1541178735493-479c1a27ed24'
         ];
 
@@ -769,9 +829,42 @@ class PerformanceOptimizer {
 
     initServiceWorker() {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
+            // Register service worker with proper scope - adjust based on deployment path
+            const swPath = window.location.pathname.includes('/club-website/') ? '/club-website/sw.js' : './sw.js';
+            const scopePath = window.location.pathname.includes('/club-website/') ? '/club-website/' : './';
+            
+            navigator.serviceWorker.register(swPath, { scope: scopePath })
+                .then(registration => {
+                    console.log('✅ Service Worker registered successfully:', registration.scope);
+                    
+                    // Check for updates periodically
+                    setInterval(() => {
+                        registration.update();
+                    }, 60000); // Check every minute
+                    
+                    // Handle updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available, show update notification
+                                console.log('🔄 New version available! Please refresh.');
+                                // Optionally show a toast/notification to user
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('❌ Service Worker registration failed:', error);
+                });
+            
+            // Handle controller change
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('🔄 Service Worker updated, reloading page...');
+                window.location.reload();
+            });
+        } else {
+            console.warn('⚠️ Service Workers not supported in this browser');
         }
     }
 
@@ -804,6 +897,37 @@ window.addEventListener('resize', () => {
     if (website) {
         website.closeMobileMenu();
     }
+});
+
+// Backup mobile menu initialization (in case primary fails)
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav ul');
+        
+        if (menuBtn && nav) {
+            // Check if click handler already exists
+            const hasListener = menuBtn.onclick !== null;
+            
+            if (!hasListener) {
+                console.log('⚠️ Backup: Initializing mobile menu');
+                menuBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    nav.classList.toggle('active');
+                    const icon = menuBtn.querySelector('i');
+                    if (icon) {
+                        icon.className = nav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+                    }
+                    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+                    console.log('🎯 Backup menu toggled');
+                });
+                console.log('✅ Backup mobile menu initialized');
+            } else {
+                console.log('✅ Mobile menu already has handler');
+            }
+        }
+    }, 500);
 });
 
 // Error handling

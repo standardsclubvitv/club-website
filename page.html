@@ -26,12 +26,34 @@
 
     <!-- Additional Tags -->
     <meta name="author" content="Pranav Rayban">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00539c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Performance Optimization: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://standardsclubvitv.github.io">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://standardsclubvitv.github.io/image-api/images/logo_club.png" as="image">
+    
     <title>BIS Standards Club - VIT Vellore</title>
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Module preload for better JS performance -->
+    <link rel="modulepreload" href="data.js">
+    <link rel="modulepreload" href="pageRenderer.js">
+    <link rel="modulepreload" href="index.js">
 </head>
 
 <!-- Standard Favicon (PNG) -->
@@ -41,11 +63,35 @@
 <link rel="apple-touch-icon" href="https://standardsclubvitv.github.io/image-api/images/logo_club.png">
 
 <!-- For IE and Older Browsers (ICO format - optional) -->
-<link rel="shortcut icon" href="https://standardsclubvitv.github.io/image-api/images/logo_club.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://standardsclubvitv.github.io/image-api/images/logo_club.png" type="image/x-icon">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="./manifest.json">
 
 <body>
     <!-- Particle Background -->
     <div id="particles-js"></div>
+    
+    <!-- PWA Install Banner -->
+    <div id="install-banner" class="install-banner" style="display: none;">
+        <div class="install-banner-content">
+            <div class="install-banner-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="install-banner-text">
+                <h3>Install BIS Club App</h3>
+                <p>Add to home screen for quick access and offline support</p>
+            </div>
+            <div class="install-banner-actions">
+                <button id="install-button" class="install-btn-primary">
+                    <i class="fas fa-download"></i> Install
+                </button>
+                <button id="install-dismiss" class="install-btn-secondary">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Section -->
     <header>
@@ -67,9 +113,9 @@
                     <li><a href="#events">Events</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <div class="mobile-menu-btn">
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <i class="fas fa-bars"></i>
-                </div>
+                </button>
             </nav>
         </div>
     </header>
@@ -85,7 +131,7 @@
                 </div>
             </div>
             <div class="slide"
-                style="background-image: linear-gradient(rgba(0, 83, 156, 0.7), rgba(0, 83, 156, 0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');">
+                style="background-image: linear-gradient(rgba(0, 83, 156, 0.7), rgba(0, 83, 156, 0.7)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');">
                 <div class="slide-content">
                     <h2>Empowering Students</h2>
                     <p>Developing future leaders in standardization</p>
@@ -378,14 +424,14 @@
                 <!-- Finance Head -->
                 <div class="team-member">
                     <div class="member-img">
-                        <img src="./profile/Devadutt.jpg" alt="Devadutt" loading="lazy">
+                        <img src="./profile/development head.jpg" alt="Devadutt" loading="lazy">
                         <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://www.linkedin.com/in/arjun-s-b45593239?utm_source=share_via&utm_content=profile&utm_medium=member_android"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
-                    <h3>Devadutt</h3>
-                    <p class="position">Finance Head</p>
-                    <p class="bio">Managing club finances and budgeting for activities.</p>
+                    <h3>Arjun S</h3>
+                    <p class="position">Development head</p>
+                    <p class="bio">responsible for leading and overseeing the planning, execution.</p>
                 </div>
 
                 <!-- Publicity Head -->
@@ -515,17 +561,128 @@
         </div>
     </footer>
 
-    <!-- Particles.js Library -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="data.js"></script>
-    <script src="pageRenderer.js"></script>
-    <script src="index.js"></script>
+    <!-- Particles.js Library - Load asynchronously -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+    
+    <!-- Application Scripts - Load with defer for better performance -->
+    <script src="data.js" defer></script>
+    <script src="pageRenderer.js" defer></script>
+    <script src="index.js" defer></script>
     
     <script>
         // Initialize with enhanced features
         document.addEventListener('DOMContentLoaded', () => {
-            window.BISClub.init();
+            // Small delay to ensure all scripts are loaded
+            setTimeout(() => {
+                if (window.BISClub) {
+                    window.BISClub.init();
+                }
+            }, 100);
         });
+        
+        // Progressive Web App - Install prompt
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        const installButton = document.getElementById('install-button');
+        const dismissButton = document.getElementById('install-dismiss');
+
+        // Listen for the beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the default mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            console.log('💡 App can be installed');
+            
+            // Show our custom install banner after a short delay
+            setTimeout(() => {
+                if (installBanner && !localStorage.getItem('pwa-install-dismissed')) {
+                    installBanner.style.display = 'block';
+                }
+            }, 3000); // Show banner 3 seconds after page load
+        });
+
+        // Install button click handler
+        if (installButton) {
+            installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    console.log('⚠️ Install prompt not available');
+                    return;
+                }
+
+                // Show the install prompt
+                deferredPrompt.prompt();
+                
+                // Wait for the user's response
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`👤 User response: ${outcome}`);
+                
+                // Hide the banner regardless of outcome
+                if (installBanner) {
+                    installBanner.style.display = 'none';
+                }
+                
+                // Clear the deferredPrompt
+                deferredPrompt = null;
+                
+                // Remember that user interacted with install
+                localStorage.setItem('pwa-install-prompted', 'true');
+            });
+        }
+
+        // Dismiss button click handler
+        if (dismissButton) {
+            dismissButton.addEventListener('click', () => {
+                if (installBanner) {
+                    installBanner.style.animation = 'slideDownBanner 0.3s ease-out forwards';
+                    setTimeout(() => {
+                        installBanner.style.display = 'none';
+                    }, 300);
+                }
+                // Remember user dismissed the banner (for 7 days)
+                localStorage.setItem('pwa-install-dismissed', Date.now() + (7 * 24 * 60 * 60 * 1000));
+            });
+        }
+
+        // Track app install
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ BIS Club PWA installed successfully');
+            if (installBanner) {
+                installBanner.style.display = 'none';
+            }
+            deferredPrompt = null;
+            localStorage.setItem('pwa-installed', 'true');
+            
+            // Show success message
+            const successMsg = document.createElement('div');
+            successMsg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 217, 255, 0.95);
+                color: #0a0a0a;
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                font-weight: 600;
+                z-index: 10001;
+                animation: slideDownBanner 0.5s ease-out;
+            `;
+            successMsg.innerHTML = '<i class="fas fa-check-circle"></i> App installed successfully!';
+            document.body.appendChild(successMsg);
+            setTimeout(() => successMsg.remove(), 3000);
+        });
+
+        // Check if already installed
+        if (localStorage.getItem('pwa-installed')) {
+            console.log('✅ PWA already installed');
+        }
+
+        // Clear expired dismiss flag
+        const dismissedUntil = localStorage.getItem('pwa-install-dismissed');
+        if (dismissedUntil && Date.now() > parseInt(dismissedUntil)) {
+            localStorage.removeItem('pwa-install-dismissed');
+        }
     </script>
 </body>
 
